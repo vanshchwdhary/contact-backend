@@ -24,144 +24,196 @@ const adminTemplate = (name, email, message) => `
       <title>New Portfolio Message</title>
 
       <style>
+        :root {
+          --bg: #f5f7fa;
+          --card: #ffffff;
+          --border: #e1e8f0;
+          --shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+          --heading: #111827;
+          --text: #1f2933;
+          --muted: #6b7280;
+          --accent: #2563eb;
+          --badge-bg: #e0edff;
+          --badge-text: #1d4ed8;
+          --pill-bg: #f3f4f6;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          :root {
+            --bg: #020617;
+            --card: #020617;
+            --border: #1e293b;
+            --shadow: 0 24px 60px rgba(15, 23, 42, 0.85);
+            --heading: #f9fafb;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #60a5fa;
+            --badge-bg: rgba(96, 165, 250, 0.12);
+            --badge-text: #bfdbfe;
+            --pill-bg: #020617;
+          }
+        }
+
         body {
           margin: 0;
-          padding: 24px 0;
-          background: #050b10;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-          color: #f9fbff;
+          padding: 32px 16px;
+          background: var(--bg);
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+          color: var(--text);
         }
 
         .outer {
-          width: 100%;
+          max-width: 760px;
+          margin: 0 auto;
         }
 
         .card {
-          max-width: 640px;
-          width: 100%;
-          margin: 0 auto;
-          background: radial-gradient(circle at top left, #172b3f 0, #071321 45%, #050b10 100%);
-          border-radius: 18px;
-          border: 1px solid #1f3448;
-          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
-          padding: 28px 26px 26px;
+          background: var(--card);
+          border-radius: 24px;
+          border: 1px solid var(--border);
+          box-shadow: var(--shadow);
+          padding: 28px 28px 24px;
           box-sizing: border-box;
         }
 
-        .logo-wrap {
-          text-align: center;
-          margin-bottom: 22px;
+        .header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          margin-bottom: 20px;
         }
 
-        .logo-wrap img {
-          width: 70px;
-          height: 70px;
-          border-radius: 16px;
-          display: inline-block;
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .vp-logo {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          background: #020617;
+          overflow: hidden;
+        }
+
+        .vp-logo img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .brand-text {
+          font-size: 14px;
+          color: var(--muted);
+        }
+
+        .brand-text strong {
+          display: block;
+          font-size: 15px;
+          color: var(--heading);
         }
 
         .badge {
-          display: inline-block;
-          padding: 4px 10px;
+          padding: 6px 12px;
           border-radius: 999px;
+          background: var(--badge-bg);
+          color: var(--badge-text);
           font-size: 11px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          background: rgba(0, 224, 255, 0.08);
-          color: #7de9ff;
-          border: 1px solid rgba(0, 224, 255, 0.2);
-          margin-bottom: 10px;
+          font-weight: 600;
+          white-space: nowrap;
         }
 
         h1 {
           margin: 0 0 6px;
           font-size: 20px;
-          text-align: center;
           font-weight: 650;
+          color: var(--heading);
         }
 
         .subtitle {
           margin: 0 0 18px;
-          font-size: 13px;
-          text-align: center;
-          color: #a2b7cb;
+          font-size: 14px;
+          color: var(--muted);
         }
 
-        .meta-grid {
-          width: 100%;
-          margin-bottom: 14px;
-          border-radius: 12px;
-          background: rgba(9, 24, 40, 0.9);
-          border: 1px solid #203347;
-          padding: 12px 14px;
-          box-sizing: border-box;
+        .meta-card {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding: 14px 16px;
+          border-radius: 18px;
+          background: var(--pill-bg);
+          border: 1px solid var(--border);
+          margin-bottom: 18px;
         }
 
         .meta-row {
           display: flex;
           justify-content: space-between;
-          align-items: center;
-          margin-bottom: 6px;
-          font-size: 13px;
-        }
-
-        .meta-row:last-child {
-          margin-bottom: 0;
+          gap: 12px;
+          font-size: 14px;
         }
 
         .meta-label {
-          color: #7f93a8;
+          color: var(--muted);
         }
 
         .meta-value {
-          color: #e5f1ff;
           font-weight: 500;
+          color: var(--heading);
           text-align: right;
         }
 
-        .message-block {
-          margin-top: 16px;
-        }
-
-        .message-label {
+        .message-title {
           font-size: 13px;
           font-weight: 600;
-          color: #c3d7ec;
+          color: var(--muted);
           margin-bottom: 8px;
         }
 
         .message-box {
-          background: radial-gradient(circle at top left, #172b3f 0, #0a1826 45%, #050b10 100%);
-          border-radius: 12px;
-          border: 1px solid #223953;
-          padding: 14px 14px 16px;
+          border-radius: 18px;
+          border: 1px solid var(--border);
+          background: #f9fafb;
+          padding: 16px 18px;
           font-size: 14px;
-          line-height: 1.6;
-          color: #f3f7ff;
+          line-height: 1.7;
+          color: var(--text);
           white-space: pre-wrap;
         }
 
+        @media (prefers-color-scheme: dark) {
+          .message-box {
+            background: #020617;
+          }
+        }
+
         .footer {
-          margin-top: 18px;
-          padding-top: 12px;
-          border-top: 1px dashed rgba(138, 163, 188, 0.4);
-          font-size: 11px;
-          color: #7f93a8;
+          margin-top: 22px;
+          padding-top: 16px;
+          border-top: 1px solid rgba(148, 163, 184, 0.25);
+          font-size: 12px;
+          color: var(--muted);
           text-align: center;
         }
 
         @media only screen and (max-width: 520px) {
           body {
-            padding: 16px 0;
+            padding: 20px 12px;
           }
 
           .card {
-            margin: 0 14px;
             padding: 22px 18px 20px;
           }
 
-          h1 {
-            font-size: 18px;
+          .header {
+            flex-direction: column;
+            align-items: flex-start;
           }
 
           .meta-row {
@@ -179,31 +231,45 @@ const adminTemplate = (name, email, message) => `
     <body>
       <div class="outer">
         <div class="card">
-          <div class="logo-wrap">
-            <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
+          <div class="header">
+            <div class="brand">
+              <div class="vp-logo">
+                <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
+              </div>
+              <div class="brand-text">
+                <strong>New portfolio contact</strong>
+                Incoming message from your site
+              </div>
+            </div>
+            <div class="badge">Admin copy</div>
           </div>
 
-          <div class="badge">New portfolio contact</div>
           <h1>New Portfolio Contact Request</h1>
-          <p class="subtitle">You just received a new message from your portfolio contact form.</p>
+          <p class="subtitle">
+            You just received a new message from your portfolio contact form.
+          </p>
 
-          <div class="meta-grid">
+          <div class="meta-card">
             <div class="meta-row">
-              <span class="meta-label">From</span>
-              <span class="meta-value">${name}</span>
+              <div class="meta-label">From</div>
+              <div class="meta-value">${name}</div>
             </div>
             <div class="meta-row">
-              <span class="meta-label">Email</span>
-              <span class="meta-value">${email}</span>
+              <div class="meta-label">Email</div>
+              <div class="meta-value">${email}</div>
             </div>
           </div>
 
-          <div class="message-block">
-            <div class="message-label">Message</div>
-            <div class="message-box">${message}</div>
+          <div>
+            <div class="message-title">Message</div>
+            <div class="message-box">
+              ${message}
+            </div>
           </div>
 
-          <div class="footer">© ${new Date().getFullYear()} Vansh Portfolio · Sent from your contact-backend service</div>
+          <div class="footer">
+            © ${new Date().getFullYear()} Vansh Portfolio · Sent from your contact-backend service
+          </div>
         </div>
       </div>
     </body>
@@ -216,200 +282,288 @@ const htmlTemplate = (name, userMessage) => `
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Email</title>
+      <title>We’ve received your message</title>
 
       <style>
         :root {
-          --bg: #0c1a27;
-          --card: #0f2233;
-          --text: #ffffff;
-          --subtext: #9bb4c9;
-          --border: #1c3247;
-          --box: #132e44;
-          --accent: #00e0ff;
+          --bg: #f5f7fa;
+          --card: #ffffff;
+          --border: #e1e8f0;
+          --shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+          --heading: #111827;
+          --text: #1f2933;
+          --muted: #6b7280;
+          --accent: #2563eb;
+          --pill-bg: #f3f4f6;
         }
 
-        @media (prefers-color-scheme: light) {
+        @media (prefers-color-scheme: dark) {
           :root {
-            --bg: #f5f7fa;
-            --card: #ffffff;
-            --text: #000000;
-            --subtext: #555555;
-            --border: #d9e2ec;
-            --box: #f1f4f8;
-            --accent: #0077ff;
+            --bg: #020617;
+            --card: #020617;
+            --border: #1e293b;
+            --shadow: 0 24px 60px rgba(15, 23, 42, 0.85);
+            --heading: #f9fafb;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #60a5fa;
+            --pill-bg: #020617;
           }
         }
 
         body {
-          background-color: var(--bg);
           margin: 0;
-          padding: 0;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          padding: 32px 16px;
+          background: var(--bg);
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
           color: var(--text);
         }
 
-        .container {
-          max-width: 600px;
-          width: 100%;
+        .outer {
+          max-width: 760px;
           margin: 0 auto;
+        }
+
+        .card {
           background: var(--card);
-          padding: 30px;
-          border-radius: 14px;
+          border-radius: 24px;
           border: 1px solid var(--border);
+          box-shadow: var(--shadow);
+          padding: 28px 28px 26px;
           box-sizing: border-box;
         }
 
-        .logo {
-          text-align: center;
-          margin-bottom: 25px;
+        .header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          margin-bottom: 22px;
         }
 
-        .logo img {
-          width: 85px;
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .vp-logo {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          background: #020617;
+          overflow: hidden;
+        }
+
+        .vp-logo img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .brand-text {
+          font-size: 14px;
+          color: var(--muted);
+        }
+
+        .brand-text strong {
+          display: block;
+          font-size: 15px;
+          color: var(--heading);
+        }
+
+        .tag {
+          padding: 6px 12px;
+          border-radius: 999px;
+          background: var(--pill-bg);
+          color: var(--muted);
+          font-size: 11px;
+          white-space: nowrap;
         }
 
         h2 {
+          margin: 0 0 10px;
+          font-size: 22px;
           font-weight: 650;
-          margin-bottom: 18px;
-          color: var(--text);
-          text-align: center;
+          color: var(--heading);
         }
 
         p {
-          font-size: 15px;
+          font-size: 14px;
           line-height: 1.7;
-          margin: 0 0 12px 0;
+          margin: 0 0 10px;
           color: var(--text);
         }
 
         .message-box {
-          background: var(--box);
-          padding: 16px;
-          border-radius: 10px;
+          margin-top: 18px;
+          padding: 16px 18px;
+          border-radius: 18px;
           border: 1px solid var(--border);
-          margin-top: 16px;
+          background: var(--pill-bg);
         }
 
         .message-title {
-          font-weight: bold;
-          margin-bottom: 8px;
-          color: var(--accent);
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--muted);
+          margin-bottom: 6px;
         }
 
-        .btn-group {
-          text-align: center;
-          margin-top: 25px;
-        }
-
-        .btn-group a {
-          display: inline-block;
-          margin: 6px;
-          padding: 10px 18px;
-          background: var(--accent);
-          color: #000000;
-          text-decoration: none;
-          font-weight: bold;
-          border-radius: 8px;
+        .message-body {
           font-size: 14px;
+          color: var(--text);
+          white-space: pre-wrap;
         }
 
-        .signature-card {
-          margin-top: 25px;
+        .btn-row {
+          margin-top: 22px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .btn {
+          display: inline-block;
+          padding: 10px 18px;
+          border-radius: 999px;
+          font-size: 13px;
+          font-weight: 600;
+          text-decoration: none;
+          border: 1px solid transparent;
+        }
+
+        .btn-primary {
+          background: var(--accent);
+          color: #ffffff;
+          border-color: var(--accent);
+        }
+
+        .btn-ghost {
+          background: transparent;
+          color: var(--muted);
+          border-color: var(--border);
+        }
+
+        .signature {
+          margin-top: 26px;
           display: flex;
           align-items: center;
-          background: var(--box);
-          padding: 16px;
-          border-radius: 12px;
-          border: 1px solid var(--border);
+          gap: 14px;
         }
 
-        .sig-avatar {
-          width: 58px;
-          height: 58px;
-          border-radius: 50%;
-          margin-right: 15px;
+        .avatar {
+          width: 56px;
+          height: 56px;
+          border-radius: 18px;
+          overflow: hidden;
+          box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
         }
 
-        .sig-info {
-          line-height: 1.4;
+        .avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .sig-text {
+          font-size: 13px;
+          line-height: 1.5;
+        }
+
+        .sig-text strong {
+          font-size: 14px;
+          color: var(--heading);
         }
 
         .footer {
-          margin-top: 38px;
+          margin-top: 30px;
+          font-size: 12px;
+          color: var(--muted);
           text-align: center;
-          font-size: 13px;
-          color: var(--subtext);
         }
 
-        @media only screen and (max-width: 480px) {
-          .container {
-            padding: 18px;
+        @media only screen and (max-width: 520px) {
+          body {
+            padding: 20px 12px;
           }
 
-          .logo img {
-            width: 64px;
+          .card {
+            padding: 22px 18px 20px;
           }
 
-          p {
-            font-size: 14px;
-          }
-
-          .message-box {
-            padding: 14px;
-          }
-
-          .signature-card {
+          .header {
             flex-direction: column;
-            text-align: center;
+            align-items: flex-start;
+            gap: 10px;
           }
 
-          .sig-avatar {
-            margin-bottom: 12px;
+          .btn-row {
+            flex-direction: column;
+          }
+
+          .signature {
+            align-items: flex-start;
           }
         }
       </style>
     </head>
 
     <body>
-      <div class="container">
-        <div class="logo">
-          <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
-        </div>
-
-        <h2>We’ve received your message!</h2>
-
-        <p>Hi ${name},</p>
-
-        <p>
-          Thank you for reaching out! Your message has been received successfully.
-          I truly appreciate you taking the time to connect — I will personally get back
-          to you as soon as possible.
-        </p>
-
-        <div class="message-box">
-          <div class="message-title">Your Message:</div>
-          <div>${userMessage}</div>
-        </div>
-
-        <div class="btn-group">
-          <a href="https://farmfixer.xyz">Visit Portfolio</a>
-          <a href="https://linkedin.com/in/vanshchwdhary">LinkedIn</a>
-          <a href="https://github.com/vanshchwdhary">GitHub</a>
-        </div>
-
-        <div class="signature-card">
-          <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" class="sig-avatar" alt="VP Logo" />
-          <div class="sig-info">
-            <strong>Vansh Phalswal</strong><br />
-            Web Developer • Designer<br />
-            contact@drkake.org
+      <div class="outer">
+        <div class="card">
+          <div class="header">
+            <div class="brand">
+              <div class="vp-logo">
+                <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
+              </div>
+              <div class="brand-text">
+                <strong>Vansh Portfolio</strong>
+                Thanks for reaching out
+              </div>
+            </div>
+            <div class="tag">Message received</div>
           </div>
-        </div>
 
-        <div class="footer">
-          This is an automated confirmation email from my portfolio.<br />
-          © ${new Date().getFullYear()} Vansh Portfolio
+          <h2>We’ve received your message</h2>
+
+          <p>Hi ${name},</p>
+          <p>
+            Thank you for reaching out! Your message has been received successfully.
+            I really appreciate you taking the time to connect — I’ll personally get
+            back to you as soon as possible.
+          </p>
+
+          <div class="message-box">
+            <div class="message-title">Your message</div>
+            <div class="message-body">
+              ${userMessage}
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <a href="https://farmfixer.xyz" class="btn btn-primary">Visit portfolio</a>
+            <a href="https://linkedin.com/in/vanshchwdhary" class="btn btn-ghost">LinkedIn</a>
+            <a href="https://github.com/vanshchwdhary" class="btn btn-ghost">GitHub</a>
+          </div>
+
+          <div class="signature">
+            <div class="avatar">
+              <img src="https://contact-backend-v7b0.onrender.com/static/avatar.png" alt="Vansh avatar" />
+            </div>
+            <div class="sig-text">
+              <strong>Vansh Phalswal</strong><br />
+              Cybersecurity &amp; Software Developer<br />
+              contact@drkake.org
+            </div>
+          </div>
+
+          <div class="footer">
+            This is an automated confirmation email from my portfolio site.<br />
+            © ${new Date().getFullYear()} Vansh Portfolio
+          </div>
         </div>
       </div>
     </body>
