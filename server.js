@@ -21,7 +21,7 @@ app.post("/send-message", async (req, res) => {
 
   // Email sent TO YOU
   const mailToYou = {
-    from: "Vansh Portfolio <onboarding@resend.dev>",
+    from: "Vansh Portfolio <contact@drkake.org>",
     to: process.env.MAIL_USER,
     subject: `New message from ${name}`,
     text: `${message}\n\nEmail: ${email}`,
@@ -29,7 +29,7 @@ app.post("/send-message", async (req, res) => {
 
   // Auto Reply to USER
   const autoReply = {
-    from: "Vansh Portfolio <onboarding@resend.dev>",
+    from: "Vansh Portfolio <contact@drkake.org>",
     to: email,
     subject: "Thanks for contacting me!",
     text: `Hey ${name},\n\nThanks for reaching out! I received your message and will reply soon.\n\nRegards,\nVansh`,
