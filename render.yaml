@@ -2,10 +2,12 @@ services:
   - type: web
     name: contact-backend
     env: node
+    region: singapore
     buildCommand: "npm install"
     startCommand: "npm start"
+    plan: free
     envVars:
       - key: MAIL_USER
-        sync: false
+        fromDatabase: false
       - key: MAIL_PASS
-        sync: false
+        fromDatabase: false
