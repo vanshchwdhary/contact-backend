@@ -299,7 +299,7 @@ const htmlTemplate = (name, userMessage) => `
         </div>
 
         <div class="btn-group">
-          <a href="https://farmfixer.org">Visit Portfolio</a>
+          <a href="https://farmfixer.xyz">Visit Portfolio</a>
           <a href="https://linkedin.com/in/vanshphalswal">LinkedIn</a>
           <a href="https://github.com/vanshchwdhary">GitHub</a>
         </div>
