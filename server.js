@@ -305,7 +305,7 @@ const htmlTemplate = (name, userMessage) => `
         </div>
 
         <div class="signature-card">
-          <img src="https://i.ibb.co/6BDG0Tn/avatar-temp.png" class="sig-avatar" />
+          <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" class="sig-avatar" />
           <div class="sig-info">
             <strong>Vansh Phalswal</strong><br />
             Web Developer • Designer<br />
