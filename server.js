@@ -244,7 +244,7 @@ const adminTemplate = (name, email, message) => `
             <div class="badge">Admin copy</div>
           </div>
           <div class="signature" style="display:flex;align-items:center;gap:14px;margin-top:10px;">
-            <div class="avatar" style="width:56px;height:56px;border-radius:18px;overflow:hidden;box-shadow:0 10px 24px rgba(15,23,42,0.18);">
+            <div class="avatar" style="width:40px;height:40px;border-radius:50%;overflow:hidden;box-shadow:0 6px 16px rgba(15,23,42,0.18);">
               <img src="https://contact-backend-v7b0.onrender.com/static/vansh-avatar.png" alt="Vansh Avatar" style="width:100%;height:100%;object-fit:cover;display:block;" />
             </div>
             <div class="sig-text" style="font-size:13px;line-height:1.5;color:var(--text);">
@@ -559,8 +559,8 @@ const htmlTemplate = (name, userMessage) => `
           </div>
 
           <div class="signature">
-            <div class="avatar">
-              <img src="https://contact-backend-v7b0.onrender.com/static/vansh-avatar.png" alt="Vansh avatar" />
+            <div class="avatar" style="width:40px;height:40px;border-radius:50%;overflow:hidden;box-shadow:0 6px 16px rgba(15,23,42,0.18);">
+              <img src="https://contact-backend-v7b0.onrender.com/static/vansh-avatar.png" alt="Vansh avatar" style="width:100%;height:100%;object-fit:cover;display:block;" />
             </div>
             <div class="sig-text">
               <strong>Vansh Phalswal</strong><br />
