@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { Resend } from "resend";
 
 dotenv.config();
+console.log("MAIL_TO =", process.env.MAIL_TO);
 const MAIL_TO = process.env.MAIL_TO;
 const app = express();
 app.use(cors());
