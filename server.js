@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { Resend } from "resend";
 
 dotenv.config();
+const MAIL_TO = process.env.MAIL_TO;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -22,7 +23,7 @@ app.post("/send-message", async (req, res) => {
   // Email sent TO YOU
   const mailToYou = {
     from: "Vansh Portfolio <contact@drkake.org>",
-    to: process.env.MAIL_USER,
+    to: MAIL_TO,
     subject: `New message from ${name}`,
     text: `${message}\n\nEmail: ${email}`,
   };
