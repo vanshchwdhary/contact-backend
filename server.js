@@ -4,11 +4,13 @@ import dotenv from "dotenv";
 import { Resend } from "resend";
 
 dotenv.config();
-console.log("MAIL_TO =", process.env.MAIL_TO);
+
 const MAIL_TO = process.env.MAIL_TO;
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+// Serve static assets (like vp-logo.png)
 app.use("/static", express.static("."));
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -19,114 +21,190 @@ const adminTemplate = (name, email, message) => `
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>New Message</title>
+      <title>New Portfolio Message</title>
 
       <style>
         body {
-          background-color: #0c1a27;
           margin: 0;
-          padding: 0;
-          font-family: Arial, sans-serif;
-          color: #ffffff;
+          padding: 24px 0;
+          background: #050b10;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          color: #f9fbff;
         }
 
-        .container {
-          max-width: 600px;
+        .outer {
           width: 100%;
-          margin: auto;
-          background: #0f2233;
-          padding: 30px;
-          border-radius: 12px;
-          border: 1px solid #1c3247;
+        }
+
+        .card {
+          max-width: 640px;
+          width: 100%;
+          margin: 0 auto;
+          background: radial-gradient(circle at top left, #172b3f 0, #071321 45%, #050b10 100%);
+          border-radius: 18px;
+          border: 1px solid #1f3448;
+          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+          padding: 28px 26px 26px;
           box-sizing: border-box;
         }
 
-        .logo {
+        .logo-wrap {
           text-align: center;
-          margin-bottom: 25px;
+          margin-bottom: 22px;
         }
 
-        .logo img {
-          width: 85px;
+        .logo-wrap img {
+          width: 70px;
+          height: 70px;
+          border-radius: 16px;
+          display: inline-block;
         }
 
-        h2 {
+        .badge {
+          display: inline-block;
+          padding: 4px 10px;
+          border-radius: 999px;
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          background: rgba(0, 224, 255, 0.08);
+          color: #7de9ff;
+          border: 1px solid rgba(0, 224, 255, 0.2);
+          margin-bottom: 10px;
+        }
+
+        h1 {
+          margin: 0 0 6px;
+          font-size: 20px;
           text-align: center;
+          font-weight: 650;
+        }
+
+        .subtitle {
+          margin: 0 0 18px;
+          font-size: 13px;
+          text-align: center;
+          color: #a2b7cb;
+        }
+
+        .meta-grid {
+          width: 100%;
+          margin-bottom: 14px;
+          border-radius: 12px;
+          background: rgba(9, 24, 40, 0.9);
+          border: 1px solid #203347;
+          padding: 12px 14px;
+          box-sizing: border-box;
+        }
+
+        .meta-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 6px;
+          font-size: 13px;
+        }
+
+        .meta-row:last-child {
+          margin-bottom: 0;
+        }
+
+        .meta-label {
+          color: #7f93a8;
+        }
+
+        .meta-value {
+          color: #e5f1ff;
+          font-weight: 500;
+          text-align: right;
+        }
+
+        .message-block {
+          margin-top: 16px;
+        }
+
+        .message-label {
+          font-size: 13px;
           font-weight: 600;
-          margin-bottom: 20px;
-          color: #ffffff;
+          color: #c3d7ec;
+          margin-bottom: 8px;
         }
 
-        p {
-          font-size: 15px;
-          line-height: 1.7;
-          margin: 0 0 8px 0;
+        .message-box {
+          background: radial-gradient(circle at top left, #172b3f 0, #0a1826 45%, #050b10 100%);
+          border-radius: 12px;
+          border: 1px solid #223953;
+          padding: 14px 14px 16px;
+          font-size: 14px;
+          line-height: 1.6;
+          color: #f3f7ff;
+          white-space: pre-wrap;
         }
 
         .footer {
-          margin-top: 35px;
+          margin-top: 18px;
+          padding-top: 12px;
+          border-top: 1px dashed rgba(138, 163, 188, 0.4);
+          font-size: 11px;
+          color: #7f93a8;
           text-align: center;
-          font-size: 13px;
-          color: #8295a8;
         }
 
-        .box {
-          background: #132e44;
-          padding: 15px;
-          border-radius: 8px;
-          margin-top: 15px;
-          border: 1px solid #1c415c;
-        }
-
-        @media only screen and (max-width: 480px) {
-          .container {
-            padding: 18px;
-            border-radius: 10px;
+        @media only screen and (max-width: 520px) {
+          body {
+            padding: 16px 0;
           }
 
-          .logo img {
-            width: 64px;
+          .card {
+            margin: 0 14px;
+            padding: 22px 18px 20px;
           }
 
-          h2 {
+          h1 {
             font-size: 18px;
-            margin-bottom: 14px;
           }
 
-          p {
-            font-size: 14px;
-            line-height: 1.5;
+          .meta-row {
+            flex-direction: column;
+            align-items: flex-start;
           }
 
-          .box {
-            padding: 12px;
-          }
-
-          .footer {
-            font-size: 12px;
-            margin-top: 24px;
+          .meta-value {
+            text-align: left;
           }
         }
       </style>
     </head>
 
     <body>
-      <div class="container">
-        <div class="logo">
-          <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
+      <div class="outer">
+        <div class="card">
+          <div class="logo-wrap">
+            <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
+          </div>
+
+          <div class="badge">New portfolio contact</div>
+          <h1>New Portfolio Contact Request</h1>
+          <p class="subtitle">You just received a new message from your portfolio contact form.</p>
+
+          <div class="meta-grid">
+            <div class="meta-row">
+              <span class="meta-label">From</span>
+              <span class="meta-value">${name}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Email</span>
+              <span class="meta-value">${email}</span>
+            </div>
+          </div>
+
+          <div class="message-block">
+            <div class="message-label">Message</div>
+            <div class="message-box">${message}</div>
+          </div>
+
+          <div class="footer">© ${new Date().getFullYear()} Vansh Portfolio · Sent from your contact-backend service</div>
         </div>
-
-        <h2>New Portfolio Contact Request</h2>
-
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-
-        <div class="box">
-          <strong>Message:</strong>
-          <p>${message}</p>
-        </div>
-
-        <div class="footer">© ${new Date().getFullYear()} Vansh Portfolio</div>
       </div>
     </body>
   </html>
@@ -141,7 +219,6 @@ const htmlTemplate = (name, userMessage) => `
       <title>Email</title>
 
       <style>
-
         :root {
           --bg: #0c1a27;
           --card: #0f2233;
@@ -157,7 +234,7 @@ const htmlTemplate = (name, userMessage) => `
             --bg: #f5f7fa;
             --card: #ffffff;
             --text: #000000;
-            --subtext: #555;
+            --subtext: #555555;
             --border: #d9e2ec;
             --box: #f1f4f8;
             --accent: #0077ff;
@@ -168,14 +245,14 @@ const htmlTemplate = (name, userMessage) => `
           background-color: var(--bg);
           margin: 0;
           padding: 0;
-          font-family: Arial, sans-serif;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
           color: var(--text);
         }
 
         .container {
           max-width: 600px;
           width: 100%;
-          margin: auto;
+          margin: 0 auto;
           background: var(--card);
           padding: 30px;
           border-radius: 14px;
@@ -230,7 +307,7 @@ const htmlTemplate = (name, userMessage) => `
           margin: 6px;
           padding: 10px 18px;
           background: var(--accent);
-          color: #000;
+          color: #000000;
           text-decoration: none;
           font-weight: bold;
           border-radius: 8px;
@@ -266,19 +343,36 @@ const htmlTemplate = (name, userMessage) => `
         }
 
         @media only screen and (max-width: 480px) {
-          .container { padding: 18px; }
-          .logo img { width: 64px; }
-          p { font-size: 14px; }
-          .message-box { padding: 14px; }
-          .signature-card { flex-direction: column; text-align: center; }
-          .sig-avatar { margin-bottom: 12px; }
+          .container {
+            padding: 18px;
+          }
+
+          .logo img {
+            width: 64px;
+          }
+
+          p {
+            font-size: 14px;
+          }
+
+          .message-box {
+            padding: 14px;
+          }
+
+          .signature-card {
+            flex-direction: column;
+            text-align: center;
+          }
+
+          .sig-avatar {
+            margin-bottom: 12px;
+          }
         }
       </style>
     </head>
 
     <body>
       <div class="container">
-
         <div class="logo">
           <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
         </div>
@@ -305,7 +399,7 @@ const htmlTemplate = (name, userMessage) => `
         </div>
 
         <div class="signature-card">
-          <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" class="sig-avatar" />
+          <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" class="sig-avatar" alt="VP Logo" />
           <div class="sig-info">
             <strong>Vansh Phalswal</strong><br />
             Web Developer • Designer<br />
@@ -317,7 +411,6 @@ const htmlTemplate = (name, userMessage) => `
           This is an automated confirmation email from my portfolio.<br />
           © ${new Date().getFullYear()} Vansh Portfolio
         </div>
-
       </div>
     </body>
   </html>
@@ -327,12 +420,9 @@ app.post("/send-message", async (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
-    return res
-      .status(400)
-      .json({ success: false, error: "All fields required" });
+    return res.status(400).json({ success: false, error: "All fields required" });
   }
 
-  // Email sent TO YOU
   const mailToYou = {
     from: "Vansh Portfolio <contact@drkake.org>",
     to: MAIL_TO,
@@ -340,7 +430,6 @@ app.post("/send-message", async (req, res) => {
     html: adminTemplate(name, email, message),
   };
 
-  // Auto Reply to USER
   const autoReply = {
     from: "Vansh Portfolio <contact@drkake.org>",
     to: email,
