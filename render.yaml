@@ -8,6 +8,6 @@ services:
     plan: free
     envVars:
       - key: MAIL_USER
-        fromDatabase: false
+        sync: false
       - key: MAIL_PASS
-        fromDatabase: false
+        sync: false
