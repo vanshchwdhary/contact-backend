@@ -8,6 +8,7 @@ const MAIL_TO = process.env.MAIL_TO;
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/static", express.static("."));
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -111,7 +112,7 @@ const adminTemplate = (name, email, message) => `
     <body>
       <div class="container">
         <div class="logo">
-          <img src="https://i.ibb.co/0GJ9t1z/vp-logo.png" alt="VP Logo" />
+          <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
         </div>
 
         <h2>New Portfolio Contact Request</h2>
@@ -278,7 +279,7 @@ const htmlTemplate = (name, userMessage) => `
       <div class="container">
 
         <div class="logo">
-          <img src="https://i.ibb.co/0GJ9t1z/vp-logo.png" alt="VP Logo" />
+          <img src="https://contact-backend-v7b0.onrender.com/static/vp-logo.png" alt="VP Logo" />
         </div>
 
         <h2>We’ve received your message!</h2>
@@ -297,7 +298,7 @@ const htmlTemplate = (name, userMessage) => `
         </div>
 
         <div class="btn-group">
-          <a href="https://vanshphalswal.com">Visit Portfolio</a>
+          <a href="https://farmfixer.org">Visit Portfolio</a>
           <a href="https://linkedin.com/in/vanshphalswal">LinkedIn</a>
           <a href="https://github.com/vanshchwdhary">GitHub</a>
         </div>
