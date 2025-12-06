@@ -130,7 +130,7 @@ const adminTemplate = (name, email, message) => `
   </html>
 `;
 
-const htmlTemplate = (name) => `
+const htmlTemplate = (name, userMessage) => `
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -139,22 +139,45 @@ const htmlTemplate = (name) => `
       <title>Email</title>
 
       <style>
+
+        :root {
+          --bg: #0c1a27;
+          --card: #0f2233;
+          --text: #ffffff;
+          --subtext: #9bb4c9;
+          --border: #1c3247;
+          --box: #132e44;
+          --accent: #00e0ff;
+        }
+
+        @media (prefers-color-scheme: light) {
+          :root {
+            --bg: #f5f7fa;
+            --card: #ffffff;
+            --text: #000000;
+            --subtext: #555;
+            --border: #d9e2ec;
+            --box: #f1f4f8;
+            --accent: #0077ff;
+          }
+        }
+
         body {
-          background-color: #0c1a27;
+          background-color: var(--bg);
           margin: 0;
           padding: 0;
           font-family: Arial, sans-serif;
-          color: #ffffff;
+          color: var(--text);
         }
 
         .container {
           max-width: 600px;
           width: 100%;
           margin: auto;
-          background: #0f2233;
+          background: var(--card);
           padding: 30px;
-          border-radius: 12px;
-          border: 1px solid #1c3247;
+          border-radius: 14px;
+          border: 1px solid var(--border);
           box-sizing: border-box;
         }
 
@@ -168,70 +191,131 @@ const htmlTemplate = (name) => `
         }
 
         h2 {
+          font-weight: 650;
+          margin-bottom: 18px;
+          color: var(--text);
           text-align: center;
-          font-weight: 600;
-          margin-bottom: 20px;
-          color: #ffffff;
         }
 
         p {
           font-size: 15px;
           line-height: 1.7;
-          margin: 0 0 8px 0;
+          margin: 0 0 12px 0;
+          color: var(--text);
+        }
+
+        .message-box {
+          background: var(--box);
+          padding: 16px;
+          border-radius: 10px;
+          border: 1px solid var(--border);
+          margin-top: 16px;
+        }
+
+        .message-title {
+          font-weight: bold;
+          margin-bottom: 8px;
+          color: var(--accent);
+        }
+
+        .btn-group {
+          text-align: center;
+          margin-top: 25px;
+        }
+
+        .btn-group a {
+          display: inline-block;
+          margin: 6px;
+          padding: 10px 18px;
+          background: var(--accent);
+          color: #000;
+          text-decoration: none;
+          font-weight: bold;
+          border-radius: 8px;
+          font-size: 14px;
+        }
+
+        .signature-card {
+          margin-top: 25px;
+          display: flex;
+          align-items: center;
+          background: var(--box);
+          padding: 16px;
+          border-radius: 12px;
+          border: 1px solid var(--border);
+        }
+
+        .sig-avatar {
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          margin-right: 15px;
+        }
+
+        .sig-info {
+          line-height: 1.4;
         }
 
         .footer {
-          margin-top: 35px;
+          margin-top: 38px;
           text-align: center;
           font-size: 13px;
-          color: #8295a8;
+          color: var(--subtext);
         }
 
         @media only screen and (max-width: 480px) {
-          .container {
-            padding: 18px;
-            border-radius: 10px;
-          }
-
-          .logo img {
-            width: 64px;
-          }
-
-          h2 {
-            font-size: 18px;
-            margin-bottom: 14px;
-          }
-
-          p {
-            font-size: 14px;
-            line-height: 1.5;
-          }
-
-          .footer {
-            font-size: 12px;
-            margin-top: 24px;
-          }
+          .container { padding: 18px; }
+          .logo img { width: 64px; }
+          p { font-size: 14px; }
+          .message-box { padding: 14px; }
+          .signature-card { flex-direction: column; text-align: center; }
+          .sig-avatar { margin-bottom: 12px; }
         }
       </style>
     </head>
 
     <body>
       <div class="container">
+
         <div class="logo">
           <img src="https://i.ibb.co/0GJ9t1z/vp-logo.png" alt="VP Logo" />
         </div>
 
-        <h2>Thanks for reaching out!</h2>
+        <h2>We’ve received your message!</h2>
 
         <p>Hi ${name},</p>
 
         <p>
-          Thank you for contacting me! I’ve received your message and will get back to you soon.
+          Thank you for reaching out! Your message has been received successfully.
+          I truly appreciate you taking the time to connect — I will personally get back
+          to you as soon as possible.
         </p>
 
-        <p>Warm regards,<br /><strong>Vansh</strong></p>
+        <div class="message-box">
+          <div class="message-title">Your Message:</div>
+          <div>${userMessage}</div>
+        </div>
 
-        <div class="footer">© ${new Date().getFullYear()} Vansh Portfolio</div>
+        <div class="btn-group">
+          <a href="https://vanshphalswal.com">Visit Portfolio</a>
+          <a href="https://linkedin.com/in/vanshphalswal">LinkedIn</a>
+          <a href="https://github.com/vanshchwdhary">GitHub</a>
+        </div>
+
+        <div class="signature-card">
+          <img src="https://i.ibb.co/6BDG0Tn/avatar-temp.png" class="sig-avatar" />
+          <div class="sig-info">
+            <strong>Vansh Phalswal</strong><br />
+            Web Developer • Designer<br />
+            contact@drkake.org
+          </div>
+        </div>
+
+        <div class="footer">
+          This is an automated confirmation email from my portfolio.<br />
+          © ${new Date().getFullYear()} Vansh Portfolio
+        </div>
+
       </div>
     </body>
   </html>
@@ -259,7 +343,7 @@ app.post("/send-message", async (req, res) => {
     from: "Vansh Portfolio <contact@drkake.org>",
     to: email,
     subject: "Thanks for contacting me!",
-    html: htmlTemplate(name),
+    html: htmlTemplate(name, message),
   };
 
   try {
