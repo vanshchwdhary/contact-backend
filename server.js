@@ -243,6 +243,15 @@ const adminTemplate = (name, email, message) => `
             </div>
             <div class="badge">Admin copy</div>
           </div>
+          <div class="signature" style="display:flex;align-items:center;gap:14px;margin-top:10px;">
+            <div class="avatar" style="width:56px;height:56px;border-radius:18px;overflow:hidden;box-shadow:0 10px 24px rgba(15,23,42,0.18);">
+              <img src="https://contact-backend-v7b0.onrender.com/static/vansh-avatar.png" alt="Vansh Avatar" style="width:100%;height:100%;object-fit:cover;display:block;" />
+            </div>
+            <div class="sig-text" style="font-size:13px;line-height:1.5;color:var(--text);">
+              <strong style="font-size:14px;color:var(--heading);">Vansh Phalswal</strong><br />
+              Admin Copy · Portfolio Owner
+            </div>
+          </div>
 
           <h1>New Portfolio Contact Request</h1>
           <p class="subtitle">
@@ -551,7 +560,7 @@ const htmlTemplate = (name, userMessage) => `
 
           <div class="signature">
             <div class="avatar">
-              <img src="https://contact-backend-v7b0.onrender.com/static/avatar.png" alt="Vansh avatar" />
+              <img src="https://contact-backend-v7b0.onrender.com/static/vansh-avatar.png" alt="Vansh avatar" />
             </div>
             <div class="sig-text">
               <strong>Vansh Phalswal</strong><br />
