@@ -2,8 +2,19 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { Resend } from "resend";
+import mongoose from "mongoose";
+
 
 dotenv.config();
+
+// Connect to MongoDB Atlas
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log(" MongoDB Connected"))
+  .catch((err) => console.error(" MongoDB Error:", err));
 
 const MAIL_TO = process.env.MAIL_TO;
 const app = express();
@@ -14,6 +25,18 @@ app.use(express.json());
 app.use("/static", express.static("."));
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+// ===== MongoDB Contact Message Schema =====
+const contactSchema = new mongoose.Schema(
+  {
+    name: String,
+    email: String,
+    message: String,
+  },
+  { timestamps: true }
+);
+
+const ContactMessage = mongoose.model("ContactMessage", contactSchema);
+// ==========================================
 
 const adminTemplate = (name, email, message) => `
   <!DOCTYPE html>
@@ -599,6 +622,9 @@ app.post("/send-message", async (req, res) => {
     subject: "Thanks for contacting me!",
     html: htmlTemplate(name, message),
   };
+
+  // Save contact form entry to database
+  await ContactMessage.create({ name, email, message });
 
   try {
     await resend.emails.send(mailToYou);
