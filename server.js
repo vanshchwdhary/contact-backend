@@ -1,3 +1,4 @@
+import rateLimit from "express-rate-limit";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -19,7 +20,27 @@ mongoose
 const MAIL_TO = process.env.MAIL_TO;
 const app = express();
 
-app.use(cors());
+// Rate limiter: max 3 messages per hour per IP
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    error: "Too many messages from this IP, please try again after an hour.",
+  },
+});
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.get("/", (req, res) => {
+  res.send("Backend running OK");
+});
 app.use(express.json());
 // Serve static assets (like vp-logo.png)
 app.use("/static", express.static("."));
@@ -602,7 +623,7 @@ const htmlTemplate = (name, userMessage) => `
   </html>
 `;
 
-app.post("/send-message", async (req, res) => {
+app.post("/send-message", contactLimiter, async (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
@@ -634,6 +655,35 @@ app.post("/send-message", async (req, res) => {
   } catch (err) {
     console.error("EMAIL ERROR:", err);
     res.status(500).json({ success: false, error: "Failed to send email" });
+  }
+});
+
+// ⚠️ TEMP: Public admin messages endpoint (no auth yet)
+// Later we can protect this with a key or login.
+app.get("/admin/messages", async (req, res) => {
+  try {
+    const messages = await ContactMessage.find()
+      .sort({ createdAt: -1 })
+      .limit(100);
+
+    res.json({
+      success: true,
+      count: messages.length,
+      messages,
+    });
+  } catch (err) {
+    console.error("ADMIN MESSAGES ERROR:", err);
+    res.status(500).json({ success: false, error: "Failed to fetch messages" });
+  }
+});
+
+app.delete("/admin/messages/:id", async (req, res) => {
+  try {
+    await ContactMessage.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error("DELETE MESSAGE ERROR:", err);
+    res.status(500).json({ success: false, error: "Failed to delete message" });
   }
 });
 
