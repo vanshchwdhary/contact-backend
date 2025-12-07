@@ -660,29 +660,22 @@ app.post("/send-message", contactLimiter, async (req, res) => {
 
 // ⚠️ TEMP: Public admin messages endpoint (no auth yet)
 // Later we can protect this with a key or login.
+// ADMIN — get all messages
 app.get("/admin/messages", async (req, res) => {
   try {
-    const messages = await ContactMessage.find()
-      .sort({ createdAt: -1 })
-      .limit(100);
-
-    res.json({
-      success: true,
-      count: messages.length,
-      messages,
-    });
+    const msgs = await Message.find().sort({ createdAt: -1 });
+    res.json({ success: true, messages: msgs });
   } catch (err) {
-    console.error("ADMIN MESSAGES ERROR:", err);
     res.status(500).json({ success: false, error: "Failed to fetch messages" });
   }
 });
 
+// ADMIN — delete a message
 app.delete("/admin/messages/:id", async (req, res) => {
   try {
-    await ContactMessage.findByIdAndDelete(req.params.id);
+    await Message.findByIdAndDelete(req.params.id);
     res.json({ success: true });
   } catch (err) {
-    console.error("DELETE MESSAGE ERROR:", err);
     res.status(500).json({ success: false, error: "Failed to delete message" });
   }
 });
